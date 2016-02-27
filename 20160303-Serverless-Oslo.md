@@ -16,6 +16,6 @@ Based on https://github.com/awslabs/lambda-refarch-fileprocessing and https://aw
 
 * Make it work
 
-## (4) SLack-demo: Lambda and API-gateway
+## (4) Slack-demo: Lambda and API-gateway
 
 ## (5) Video-demo
