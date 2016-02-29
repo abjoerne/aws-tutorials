@@ -10,6 +10,26 @@ Based on https://github.com/awslabs/aws-js-s3-explorer
 
 Example can be seen here https://anders-aws-tmp.s3-eu-west-1.amazonaws.com/filestore/index.html
 
+
+Policy:
+`{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "PublicListGet",
+			"Effect": "Allow",
+			"Principal": "*",
+			"Action": [
+				"s3:List*",
+				"s3:Get*"
+			],
+			"Resource": [
+				"arn:aws:s3:::anders-aws-tmp",
+				"arn:aws:s3:::anders-aws-tmp/filestore*"
+			]
+		}
+  ]
+}`
 ### Cleanup notes
 Remove bucket
 
