@@ -3,20 +3,19 @@
 ## (1) S3 as webserver
 
 Based on https://github.com/awslabs/aws-js-s3-explorer
-* Example https://anders-aws-tmp.s3-eu-west-1.amazonaws.com/filestore/index.html
-* Make it work
 
-Cleanup notes: Remove bucket
+### Task
+
+* Make it work - go here to start https://github.com/awslabs/aws-js-s3-explorer
+
+Example can be seen here https://anders-aws-tmp.s3-eu-west-1.amazonaws.com/filestore/index.html
+
+### Cleanup notes
+Remove bucket
 
 
 ## (2) S3, SNS and Lambda with Cloudformation
 Based on https://github.com/awslabs/lambda-refarch-fileprocessing and https://aws.amazon.com/blogs/compute/fanout-s3-event-notifications-to-multiple-endpoints/
-
-### File references
-* Reference architecture: https://s3.amazonaws.com/awslambda-reference-architectures/file-processing/lambda-refarch-fileprocessing.pdf
-* Template-file can be seen here: https://s3.amazonaws.com/awslambda-reference-architectures/file-processing/lambda_file_processing.template
-* Lambda 1: https://s3.amazonaws.com/awslambda-reference-architectures/file-processing/data-processor-1.zip
-* Lambda 2: https://s3.amazonaws.com/awslambda-reference-architectures/file-processing/data-processor-2.zip
 
 ### Task
 * Set up the stack
@@ -29,11 +28,47 @@ Based on https://github.com/awslabs/lambda-refarch-fileprocessing and https://aw
   * IAM. Look at lambda-role's policy document (what does it do?) 
 * What else can you use this architecture for?
 
-Cleanup notes: Empty buckets, remove SNS-subscriptions, remove log-groups, delete stack
 
-## (3) Lambda, Kinesis
+### File references
+* Reference architecture: https://s3.amazonaws.com/awslambda-reference-architectures/file-processing/lambda-refarch-fileprocessing.pdf
+* Template-file can be seen here: https://s3.amazonaws.com/awslambda-reference-architectures/file-processing/lambda_file_processing.template
+* Lambda 1: https://s3.amazonaws.com/awslambda-reference-architectures/file-processing/data-processor-1.zip
+* Lambda 2: https://s3.amazonaws.com/awslambda-reference-architectures/file-processing/data-processor-2.zip
 
-## (4) Slack-demo: Lambda and API-gateway
+### Cleanup notes 
+Empty buckets, remove SNS-subscriptions, remove log-groups, delete stack
 
-## (5) Video-demo
+## (3) API-gateway and Lamda
+
+This demonstrates Lambda with API-gateway. You can bootstrap Lambda and role and policy with Cloudformation, then make an API with Lambda as backend.
+* Launch stack: https://console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/new?stackName=lambda-api-gateway-demo&templateURL=https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/lambda_API_processing.template
+* Open API Gateway console 
+ * Create API
+ * Create resource
+ * Create method POST
+ * Integrationtype Lambda with correct region (eu-west-1) and name
+ * Test API in console with empty body
+ * Test with body `{"operation":"name", "name":"World" }`
+  
+ * Deploy API and test with a REST-client
+
+ * Create method GET
+ * Same integrations as above
+ * Under integration request" add mapping template
+ * Type: `application/json`
+ * Template: `#set($inputRoot = $input.path('$')){"operation":"ping" }`
+
+
+### Resources:
+* Template: https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/lambda_API_processing.template
+* Lambda-function: https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/LambdaAPIDemo.zip
+
+### Cleanup notes
+Remove the API you have cretaed and delete the stack
+
+## (4) Lambda, Kinesis
+
+## (5) Slack-demo: Lambda and API-gateway
+
+## (6) Video-demo
 
