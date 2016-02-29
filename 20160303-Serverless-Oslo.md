@@ -64,9 +64,13 @@ This demonstrates Lambda with API-gateway. You can bootstrap Lambda and role and
 * Lambda-function: https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/LambdaAPIDemo.zip
 
 ### Cleanup notes
-Remove the API you have cretaed and delete the stack
+Remove the API you have created and delete the stack
 
-## (4) Lambda, Kinesis
+## (4) Lambda, Kinesis, S3, DynamoDB
+
+Reference architecture for IoT backend using DynamoDB, Kinesis and Lambda (no EC2s). EMR and Redshift in the diagram is not part of the tutorial. https://github.com/awslabs/lambda-refarch-iotbackend
+
+NOTE! Read the cleanup-guide when cleaning up
 
 ## (5) Slack-demo: Lambda and API-gateway
 
