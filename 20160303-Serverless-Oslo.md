@@ -75,6 +75,10 @@ Reference architecture for IoT backend using DynamoDB, Kinesis and Lambda (no EC
 NOTE! Read the cleanup-guide when cleaning up
 
 ## (5) Slack-demo: Lambda and API-gateway
+There are Lambda blueprints for both sending messages to Slack and getting comands from slack. This tutorial also demonstrates the use of KMS (Key Management Service) for encrypting the Slack-token.
+
+* Create a slack-team (or use a team where you can config plugins)
+* Create Lambda based on blueprints and read instrcutions in the script
 
 ## (6) Video-demo
 
