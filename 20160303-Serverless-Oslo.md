@@ -80,5 +80,7 @@ There are Lambda blueprints for both sending messages to Slack and getting coman
 * Create a slack-team (or use a team where you can config plugins)
 * Create Lambda based on blueprints and read instrcutions in the script
 
-## (6) Video-demo
+## (6) Slack + Video-demo
+Pushing notifications to Slack. See blueprint, and user S3 and Elastic Transcoder to implement.
+
 
