@@ -20,7 +20,7 @@ Remove bucket
 Based on https://github.com/awslabs/lambda-refarch-fileprocessing and https://aws.amazon.com/blogs/compute/fanout-s3-event-notifications-to-multiple-endpoints/
 
 ### Task
-* Set up the stack
+* Set up the stack (must be in US-EAST-1)
 * Add a subscription to SNS so you get a notification via email (there are two options, check out both)
 * Check out in console
   * Cloudformation: outut, resources, events...
