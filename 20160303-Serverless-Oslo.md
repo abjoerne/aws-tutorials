@@ -40,7 +40,7 @@ Based on https://github.com/awslabs/lambda-refarch-fileprocessing and https://aw
 ### Cleanup notes 
 Empty buckets, remove SNS-subscriptions, remove log-groups, delete stack
 
-## (3) API-gateway and Lamda
+## (3) API-gateway and Lambda
 
 This demonstrates Lambda with API-gateway. You can bootstrap Lambda and role and policy with Cloudformation, then make an API with Lambda as backend.
 * Launch stack: https://console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/new?stackName=lambda-api-gateway-demo&templateURL=https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/lambda_API_processing.template
