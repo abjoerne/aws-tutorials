@@ -8,7 +8,7 @@ Based on https://github.com/awslabs/aws-js-s3-explorer
 
 * Make it work - go here to start https://github.com/awslabs/aws-js-s3-explorer
 
-Example can be seen here https://anders-aws-tmp.s3-eu-west-1.amazonaws.com/filestore/index.html
+Example can be seen here https://anders-aws-bucket.s3-eu-west-1.amazonaws.com/public/index.html
 
 S3-policy: [s3-bucket.policy](https://github.com/abjoerne/aws-tutorials/blob/master/s3-bucket.policy)
 
