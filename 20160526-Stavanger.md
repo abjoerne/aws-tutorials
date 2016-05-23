@@ -1,0 +1,111 @@
+# Charger-møte Bergen 2016-03-15
+
+Deler av presentasjonen finner her: https://drive.google.com/open?id=0B4713MtBeu8YQWpvSGVOckxDTE0
+
+##(1) S3 as webserver
+
+### Oppgave
+* Lag en S3-bucket
+* Lag en vilkårlig html-fil og last den opp i bucketen
+* Forsøk å vise filen
+* Sett policy på bucketen så alle filer kan leses av alle (NB! Bucketnavn og path må endres i eksempel-policy)
+S3-policy: [s3-bucket.policy](https://github.com/abjoerne/aws-tutorials/blob/master/s3-bucket.policy)
+
+### Opprydding
+* Remove bucket
+
+## (2) Elastic beanstalk:
+### Oppgave
+* I consolet - stå i eu-west-1
+* Start en Beanstalk-stack vha. Create New Application oppe i høyre hjørne
+  * Velg *webserver environment*
+  * Velg *PHP* og *Load balancing*
+  * Kopier inn S3-url: https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/HelloAWS.zip
+  * Velg *environment name* og *URL*
+  * Velg: *Create environment inside VPC*
+  * Velg: *Instans-type* t2.micro, sett *connection draining* til 5 sec
+  * Valgfritt - legg inn tag
+  * Kryss av alle for *ELB* og *EC2*
+  * Fortsett til *Launch*
+
+### Ting å leke med og se på
+* Se at applikasjonen virker ved å åpne URL, eventuelt åpne port 80 i security-grpup (menyvalg EC2)
+* Gå til *EC2* i consolet: se på servere, volumes, loadbalancer, autoscaling
+* Gå tilbake til applikasjonen i consolet
+  * Under *load balancing* endre *health check interval* til 6 sekunder, *healthy count* og *unhelathy count* til 2. Og vent på oppdateringen blir ferdig
+  * Under *scaling* sett *minimum* 3 og *maximum* 6 og *scaling cooldown* til 30
+* Se på hvordan EC2 og loadbalancer legger inn nye servere
+* Terminer en av EC2-instansene og se hva som skjer (se på loadbalancer, serverlist, at applikasjonen virker)
+* Deploy versjon 2 av applikasjonen https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/HelloAWS2.zip
+  * Velg *Upload and deploy*
+  * Sjekk at applikasjonen virker, se evt. på hvordan loadbalancer jobber
+* Lek evt. mer med å bytte applikasjonsversjoner, se på scaling-parametre, bytt servertype fra t2.micro til t2.nano m.v.
+* For de avanserte: se på scaling-policy og skriv eks. en applikasjon som trekker mye CPU
+
+### Opprydding
+* Når ferdig gå på *Beanstalk*-forsiden og velg *delete application*
+  
+###Linker til applikasjon for nedlasting
+* https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/HelloAWS.zip
+* https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/HelloAWS2.zip
+
+## (3) Cloudformation - Kinesis
+
+Tre servere (EC2), en datastream (Kinesis) og en database (DynamoDB). Producer-server kjører 10 tråder som hver skriver tilfeldig referanse (1 av 6) hvert 100 ms tilfeldig (100/sec). Consumer leser stream hvert 1000 ms og skriver til databasen, da telles det opp antall referanser fra streamen for siste 10.000ms. 
+
+### Oppgave
+* Før du starter opp stacken gå til *VPC* i consolet og noter ned *vpc-id* og *subnet-id* for hvor du vil ha servere plassert.  
+* Gå til *CLoudformation*
+ * Velg *Create new stack* 
+ * Start fra S3-URL https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/kinesis-trippelservers-v2.template
+ * Legg inn *subnetId* og *VPCid*
+ * Kjør gjennom wizarden
+ * Se på fanene i konsolet for hva som skjer
+* Når stacken er ferdig, se under "output" for URL til webapplikasjonen
+ 
+### Ting å leke med og se på
+* Se på ressurene som er opprettet, EC2, Kinesis, DynamoDB, rolle/policy
+* Gå til *EC2*
+ * Velg instansen *Producer* og *Launce more like this* og *Launch*
+* For de avanserte: Javakoden for producer og consumer er tilgjengelig her https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/amazon-kinesis-data-visualization-sample-1.1.2-assembly.zip
+
+### Opprydding
+* *Cloudformation* og *delete stack*
+* Terminer eventuelle ekstra EC2-servere du startet
+
+### Ressurser
+* Template https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/kinesis-trippelservers-v2.template
+* Java-program https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/amazon-kinesis-data-visualization-sample-1.1.2-assembly.zip
+* Oppgaven er basert på Amazon Kinesis Data Visualization Sample Application, for nedlasting av javakode m.v. gå til https://github.com/awslabs/amazon-kinesis-data-visualization-sample
+
+
+## (4) S3, SNS and Lambda with Cloudformation
+Based on https://github.com/awslabs/lambda-refarch-fileprocessing and https://aws.amazon.com/blogs/compute/fanout-s3-event-notifications-to-multiple-endpoints/
+
+### Task
+* Set up the stack (must be in US-EAST-1)
+* Add a subscription to SNS so you get a notification via email (there are two options, check out both)
+* Check out in console
+  * Cloudformation: output, resources, events...
+  * S3: Events in input-bucket
+  * Lambda: config etc.
+  * Cloudwatch: check under "Logs"
+  * IAM. Look at lambda-role's policy document (what does it do?) 
+* What else can you use this architecture for?
+
+
+### File references
+* Reference architecture: https://s3.amazonaws.com/awslambda-reference-architectures/file-processing/lambda-refarch-fileprocessing.pdf
+* Template-file can be seen here: https://s3.amazonaws.com/awslambda-reference-architectures/file-processing/lambda_file_processing.template
+* Lambda 1: https://s3.amazonaws.com/awslambda-reference-architectures/file-processing/data-processor-1.zip
+* Lambda 2: https://s3.amazonaws.com/awslambda-reference-architectures/file-processing/data-processor-2.zip
+
+### Cleanup notes 
+Empty buckets, remove SNS-subscriptions, remove log-groups, delete stack
+
+
+## (5) Lambda, Kinesis, S3, DynamoDB
+
+Reference architecture for IoT backend using DynamoDB, Kinesis and Lambda (no EC2s). EMR and Redshift in the diagram is not part of the tutorial. https://github.com/awslabs/lambda-refarch-iotbackend
+
+NOTE! Read the cleanup-guide when cleaning up
