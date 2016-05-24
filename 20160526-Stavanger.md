@@ -30,9 +30,7 @@ S3-policy: [s3-bucket.policy](https://github.com/abjoerne/aws-tutorials/blob/mas
   * Gå gjennom wizard se på default verdier
 * Logg evt. inn på server med ssh (user: ec2-user)
 * Terminer server
-* Start server vha. Cloudformation
-* Se hva som er opprettet
-* Slett Cloudformation
+
 
 
 ## (2) Elastic beanstalk:
