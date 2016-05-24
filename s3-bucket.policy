@@ -10,8 +10,8 @@
         "s3:Get*"
       ],
       "Resource": [
-        "arn:aws:s3:::anders-aws-tmp",
-        "arn:aws:s3:::anders-aws-tmp/filestore*"
+        "arn:aws:s3:::BUCKETNAME",
+        "arn:aws:s3:::BUCKETNAME/*"
       ]
     }
   ]

@@ -1,8 +1,12 @@
-# Charger-møte Bergen 2016-03-15
+# Fagkveld Stavanger 2016-05-26
 
-Deler av presentasjonen finner her: https://drive.google.com/open?id=0B4713MtBeu8YQWpvSGVOckxDTE0
+## Tips
+* For alle oppgaver - bruk region Irland, eu-west-1, med mindre noe annet angis. Da er det mye lettere med opprydding
+* Les oppgaveteksten, en del steder er det maler som hjelper deg med oppsett så du slipper å sette opp alt manuel
+* Ta en titt og stopp/slett ting når du er ferdig, fort gjort å glemme noe. Enkleste måten å se om man har glemt noe er å kikke på billing-siden 1-2 dager etter workshopen
 
-##(1) S3 as webserver
+
+## (1A) S3 as webserver
 
 ### Oppgave
 * Lag en S3-bucket
@@ -14,9 +18,26 @@ S3-policy: [s3-bucket.policy](https://github.com/abjoerne/aws-tutorials/blob/mas
 ### Opprydding
 * Remove bucket
 
+## (1B) Cloudformation og EC2-server
+* Cloudformation
+  * Se på template https://s3-us-west-2.amazonaws.com/cloudformation-templates-us-west-2/S3_Website_Bucket_With_Retain_On_Delete.template
+  * Lage stack: https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=S3RetentionSample&templateURL=https://s3-us-west-2.amazonaws.com/cloudformation-templates-us-west-2/S3_Website_Bucket_With_Retain_On_Delete.template
+  * Slett stack
+  * Slett bucket
+
+* Last opp din public SSH-key eller lag et nytt nøkkelpar 
+* Start en EC2-server (anbefalt t2.micro, Amazon linux)
+  * Gå gjennom wizard se på default verdier
+* Logg evt. inn på server med ssh (user: ec2-user)
+* Terminer server
+* Start server vha. Cloudformation
+* Se hva som er opprettet
+* Slett Cloudformation
+
+
 ## (2) Elastic beanstalk:
+NB! Noen kontoer har ny UI på noen områder, bl.a. Beanstalk. Stegene under stemmer ikke, så gå evt. gjennom og kjør configurering etterpå.
 ### Oppgave
-* I consolet - stå i eu-west-1
 * Start en Beanstalk-stack vha. Create New Application oppe i høyre hjørne
   * Velg *webserver environment*
   * Velg *PHP* og *Load balancing*
@@ -49,34 +70,34 @@ S3-policy: [s3-bucket.policy](https://github.com/abjoerne/aws-tutorials/blob/mas
 * https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/HelloAWS.zip
 * https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/HelloAWS2.zip
 
-## (3) Cloudformation - Kinesis
 
-Tre servere (EC2), en datastream (Kinesis) og en database (DynamoDB). Producer-server kjører 10 tråder som hver skriver tilfeldig referanse (1 av 6) hvert 100 ms tilfeldig (100/sec). Consumer leser stream hvert 1000 ms og skriver til databasen, da telles det opp antall referanser fra streamen for siste 10.000ms. 
+## (3) API-gateway and Lambda
 
-### Oppgave
-* Før du starter opp stacken gå til *VPC* i consolet og noter ned *vpc-id* og *subnet-id* for hvor du vil ha servere plassert.  
-* Gå til *CLoudformation*
- * Velg *Create new stack* 
- * Start fra S3-URL https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/kinesis-trippelservers-v2.template
- * Legg inn *subnetId* og *VPCid*
- * Kjør gjennom wizarden
- * Se på fanene i konsolet for hva som skjer
-* Når stacken er ferdig, se under "output" for URL til webapplikasjonen
- 
-### Ting å leke med og se på
-* Se på ressurene som er opprettet, EC2, Kinesis, DynamoDB, rolle/policy
-* Gå til *EC2*
- * Velg instansen *Producer* og *Launce more like this* og *Launch*
-* For de avanserte: Javakoden for producer og consumer er tilgjengelig her https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/amazon-kinesis-data-visualization-sample-1.1.2-assembly.zip
+This demonstrates Lambda with API-gateway. You can bootstrap Lambda and role and policy with Cloudformation, then make an API with Lambda as backend.
+* Launch stack: https://console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/new?stackName=lambda-api-gateway-demo&templateURL=https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/lambda_API_processing.template
+* Open API Gateway console 
+ * Create API
+ * Create resource
+ * Create method POST
+ * Integrationtype Lambda with correct region (eu-west-1) and name
+ * Test API in console with empty body
+ * Test with body `{"operation":"name", "name":"World" }`
+  
+ * Deploy API and test with a REST-client
 
-### Opprydding
-* *Cloudformation* og *delete stack*
-* Terminer eventuelle ekstra EC2-servere du startet
+ * Create method GET
+ * Same integrations as above
+ * Under integration request" add mapping template
+ * Type: `application/json`
+ * Template: `#set($inputRoot = $input.path('$')){"operation":"ping" }`
 
-### Ressurser
-* Template https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/kinesis-trippelservers-v2.template
-* Java-program https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/amazon-kinesis-data-visualization-sample-1.1.2-assembly.zip
-* Oppgaven er basert på Amazon Kinesis Data Visualization Sample Application, for nedlasting av javakode m.v. gå til https://github.com/awslabs/amazon-kinesis-data-visualization-sample
+
+### Resources:
+* Template: https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/lambda_API_processing.template
+* Lambda-function: https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/LambdaAPIDemo.zip
+
+### Cleanup notes
+Remove the API you have created and delete the stack
 
 
 ## (4) S3, SNS and Lambda with Cloudformation
@@ -104,8 +125,4 @@ Based on https://github.com/awslabs/lambda-refarch-fileprocessing and https://aw
 Empty buckets, remove SNS-subscriptions, remove log-groups, delete stack
 
 
-## (5) Lambda, Kinesis, S3, DynamoDB
 
-Reference architecture for IoT backend using DynamoDB, Kinesis and Lambda (no EC2s). EMR and Redshift in the diagram is not part of the tutorial. https://github.com/awslabs/lambda-refarch-iotbackend
-
-NOTE! Read the cleanup-guide when cleaning up
