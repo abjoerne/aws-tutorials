@@ -2,7 +2,7 @@
 
 ## EC2, loadbalancing and beanstalk
 
-Spin up a php application in Beanstalk. Here are two small php-applications only displaying version-number and IP of the server it runs on
+Spin up a php application manually in Beanstalk. Here are two small php-applications only displaying version-number and IP of the server it runs on if you don't have your own
 * https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/HelloAWS.zip
 * https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/HelloAWS2.zip
 
