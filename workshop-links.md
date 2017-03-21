@@ -15,4 +15,5 @@ This stack spins up threee EC2-servers (producer, consumer, webserver) and Dynam
 
 vpcId and subnetId (with public IP) needed for input to this template to get things up and running: 
 * https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/kinesis-trippelservers-v2.template
+* Launch in EU-WEST-1 https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=kinesis-demo&templateURL=https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/kinesis-trippelservers-v2.template
 
