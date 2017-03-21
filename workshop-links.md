@@ -6,7 +6,7 @@ Spin up a php application in Beanstalk. Here are two small php-applications only
 * https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/HelloAWS.zip
 * https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/HelloAWS2.zip
 
-## Lambda
+## Lambda and step-fuctions
 This gives you a good look into a lot of serverless components like Lambda, Step Functions, S3, Rekognition as well as DynamoDB and a small Node.js application 
 * https://github.com/awslabs/lambda-refarch-imagerecognition
 
