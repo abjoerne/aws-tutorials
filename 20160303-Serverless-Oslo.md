@@ -1,4 +1,4 @@
-#Serverless-workshop Oslo 2016-03-03
+# Serverless-workshop Oslo 2016-03-03
 
 ## (1) S3 as webserver
 
