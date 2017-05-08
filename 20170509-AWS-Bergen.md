@@ -18,6 +18,7 @@ Intention is to use S3 to host webpages.
   * Make a bucket in S3
   * Configure it to act as a webserver
   * Upload some content (html, img…)
+
 Hints:
 * Bucket policy
 * Static Website Hosting
