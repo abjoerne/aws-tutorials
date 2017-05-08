@@ -36,8 +36,10 @@ Cleanup: Remove bucket
   * Launch
 
 ## Excercise #5
-Set up a serverless event-driven system for processing files
+Set up a serverless event-driven system for processing files:
+https://github.com/awslabs/lambda-refarch-fileprocessing
 
 ## Excercise #6
 Set up a photo-album with automatic resize of photos and tagging of content
+https://github.com/awslabs/lambda-refarch-imagerecognition
 
