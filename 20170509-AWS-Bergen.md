@@ -36,13 +36,15 @@ This tutorial set up a load balanced redundant web-envronment in PHP. Use this t
     * https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/HelloAWS2.zip
   * Configure more
     * high availability
-    * environment name and URL
-    * Instance-type t2.micro
+    * environment settings
+     * sett URL
+    * Instances
+     * type t2.micro
     * network
       * create environment inside VPC
-      * select subnets for ELB og EC2
-      * make public available
-  * Launch
+      * select all subnets for ELB og EC2
+      * make load balancer public available
+  * Create app  (takes aprox 5 mins)
   * Open the application in a browser-windows (or more). The page will reload ever 5 sec. 
    * Adjust number of servers
    * Deploy a new version of the app 
