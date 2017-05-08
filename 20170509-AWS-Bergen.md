@@ -55,7 +55,7 @@ Things to try and see:
 
 ## Tutorial #5
 Set up a serverless event-driven system for processing files:
-https://github.com/awslabs/lambda-refarch-fileprocessing
+https://github.com/abjoerne/lambda-refarch-fileprocessing
 
 ## Tutorial #6
 Set up a photo-album with automatic resize of photos and tagging of content
