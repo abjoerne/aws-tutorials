@@ -1,14 +1,19 @@
 # AWS meetup Bergen 2017-05-09
 
 ## Excercise #1
+Intention is to protect your account
 * Assigning MFA to user
   * Take a look in IAM
   * Set MFA on the root account
 
 ## Excercise #2
+Intention is to protect your account with an audit log
+
 * Turn on and check out cloud-trail
 
 ## Excercise #3
+Intention is to use S3 to host webpages. 
+
 * Make a simple webserver
   * Make a bucket in S3
   * Configure it to act as a webserver
