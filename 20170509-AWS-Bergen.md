@@ -1,17 +1,17 @@
 # AWS meetup Bergen 2017-05-09
 
-## Excercise #1
+## Tutorial #1
 Intention is to protect your account
 * Assigning MFA to user
   * Take a look in IAM
   * Set MFA on the root account
 
-## Excercise #2
+## Tutorial #2
 Intention is to protect your account with an audit log
 
 * Turn on and check out cloud-trail
 
-## Excercise #3
+## Tutorial #3
 Intention is to use S3 to host webpages. 
 
 * Make a simple webserver
@@ -24,7 +24,7 @@ Hints:
 
 Cleanup: Remove bucket
 
-## Excercise #4
+## Tutorial #4
 This tutorial set up a load balanced redundant web-envronment in PHP. Use this to explorer how loadbalancing and autoscaling works. After the system is up and running, check out the setup of Loadbalancers and Autoscaling in the EC2-console. Also try to adjust number og hosts, shutdown a host etc. Whan you have more than one server running, deloy a new versjon of the application.
 
 * Start a Beanstalk-stack via “Get Started”
@@ -47,11 +47,11 @@ This tutorial set up a load balanced redundant web-envronment in PHP. Use this t
    * Deploy a new version of the app 
    * Shutdown a server (EC2-console)
 
-## Excercise #5
+## Tutorial #5
 Set up a serverless event-driven system for processing files:
 https://github.com/awslabs/lambda-refarch-fileprocessing
 
-## Excercise #6
+## Tutorial #6
 Set up a photo-album with automatic resize of photos and tagging of content
 https://github.com/awslabs/lambda-refarch-imagerecognition
 
