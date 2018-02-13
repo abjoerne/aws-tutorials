@@ -9,7 +9,7 @@ incoming orders.
 ## Process incoming orders with Lambda
 
 * Make a lambda-function triggered by file upload to S3
- * Order-file: [Example order file](files/order.json)
+  * [Example order file](files/order.json)
 * Add order to DynamoDB-table
   
 ### Hint: 
