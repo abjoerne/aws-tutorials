@@ -1,0 +1,9 @@
+{
+  "customerNumber": "1",
+  "customerName": "Anders",
+  "comment":"Leveres til Bergen",
+  "orderLines":
+    [
+      {"number":"1", "item":"brød"}
+    ]
+}
