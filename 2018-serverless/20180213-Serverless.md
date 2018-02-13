@@ -12,7 +12,7 @@ incoming orders.
  * Order-file: [Example order file](files/order.json)
 * Add order to DynamoDB-table
   
-Hint: 
+### Hint: 
 Lambda have blueprints for gettings started fast, start with "s3-get-object" and see that you get an event when a file is dropped in S3. Continue to add to database after that. 
 
 Make a table in DynamoDB with a partition key and a sort key (exaple customerNumber+timestamp)
@@ -29,7 +29,7 @@ https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.
 * Make a lambda to list all orders from DynamoDB
 * Access lambda from API-gateway
 
-Hint:
+### Hint:
 Use Lambda-blueprint "microservice-http-endpoint" and set up everything there
 
 Use API-gateway console to test integration
@@ -43,7 +43,7 @@ The intention here is to process the event-stream from DynamoDB and send all ord
 * Enable DynemoDB-stream
 * Send order or only comments to Slack. Remember to keep the Slack-key secret!
 
-Hint:
+### Hint:
 Use Lambda-blue-print "cloudwatch-alarm-to-slack"
 Let lambda be triggered by DynamoDB  
 
