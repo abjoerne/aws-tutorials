@@ -13,7 +13,7 @@ incoming orders.
 * Add order to DynamoDB-table
   
 ### Hint: 
-Lambda have blueprints for gettings started fast, start with "s3-get-object" and see that you get an event when a file is dropped in S3. Continue to add to database after that. 
+Lambda have blueprints for gettings started fast. Start with "s3-get-object" and see that you get an event when a file is dropped into S3. Continue with adding to a database after that. 
 
 Make a table in DynamoDB with a partition key and a sort key (exaple customerNumber+timestamp)
 
@@ -40,7 +40,7 @@ Use API-gateway console to test integration
 ## Process all orders, write to Slack
 The intention here is to process the event-stream from DynamoDB and send all orders to Slack.
 (You will need a slack-team-account and slack API-key)
-* Enable DynemoDB-stream
+* Enable DynamoDB-stream
 * Send order or only comments to Slack. Remember to keep the Slack-key secret!
 
 ### Hint:
@@ -54,5 +54,5 @@ Let lambda be triggered by DynamoDB
 
 ## Make web-frontend to enter orders
 * Make a static website in S3 with an HTML-form to submit orders
-  * submit as files to S3 (would need to be secured with Cognito to avoid uploading other ifles to S3)
+  * submit as files to S3 (would need to be secured with Cognito to avoid uploading other files to S3)
   * submit as POST to Lambda via API-gateway (open or secured with Cognito)
