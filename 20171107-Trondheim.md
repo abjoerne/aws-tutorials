@@ -30,14 +30,14 @@ This tutorial set up a load balanced redundant web-envronment in PHP. Use this t
 
 (The following applies to the new web-interface)
 * Start a Beanstalk-stack 
-  *via “Create New Application”
+  **via “Create New Application”**
 * Create environment
   * webserver environment
   * PHP and upload application (zip-file)
     * application 
       * https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/HelloAWS.zip
       * https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/HelloAWS2.zip
-  * Configure more
+  * **Configure more**
     * High availability
     * Instance type t2.micro
     * Capacity 
