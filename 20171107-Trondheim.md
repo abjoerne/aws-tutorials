@@ -39,10 +39,11 @@ This tutorial set up a load balanced redundant web-envronment in PHP. Use this t
       * https://s3-eu-west-1.amazonaws.com/anders-aws-bucket/awsdemo/HelloAWS2.zip
   * **Configure more**
     * High availability
-    * Instance type t2.micro
+    * Instance 
+      * type t3.nano
     * Capacity 
       * min 3, max 6 servers
-    * network
+    * Network
       * create environment inside VPC
       * select all subnets for ELB og EC2
       * make load balancer public available (public IPs for LB and servers)
