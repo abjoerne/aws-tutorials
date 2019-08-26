@@ -51,7 +51,7 @@ This tutorial set up a load balanced redundant web-envronment in PHP. Use this t
   
 Things to try and see:
   * Check settings for loadbalancer and autoscaling on EC2-console
-  * Open the application in a browser-windows (or more). The page will reload ever 5 sec. 
+  * Open the application in a browser-windows (or more). The page will reload every 5 sec. 
   * Adjust number of servers
   * Deploy a new version of the app 
   * Shutdown a server (EC2-console)
