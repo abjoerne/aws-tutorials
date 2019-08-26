@@ -46,7 +46,7 @@ This tutorial set up a load balanced redundant web-envronment in PHP. Use this t
       * create environment inside VPC
       * select all subnets for ELB og EC2
       * make load balancer public available (public IPs for LB and servers)
-  * Create environemnt  (takes aprox 5 mins, have a beer or a cofee...)
+  * Create environment  (takes aprox 5 mins, have a beer or a cofee...)
   
 Things to try and see:
   * Check settings for loadbalancer and autoscaling on EC2-console
