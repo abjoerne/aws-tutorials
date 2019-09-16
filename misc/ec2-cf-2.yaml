@@ -1,0 +1,137 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+    - Label:
+        default: GLOBAL
+    - Label:
+        default: NETWORK
+      Parameters:
+        - vpcId
+        - subnetId
+    - Label:
+        default: SERVER
+      Parameters:
+        - instanceType
+        - secondVolume
+        - secondVolumSize
+        - ec2Ami
+
+Parameters:
+  vpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: Select a VPC that allows instances access to the Internet.
+  subnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: Select subnet for private network in VPC
+  instanceType:
+    Type: String
+    AllowedValues: ["t3.nano","t3.micro","t3.small"]
+  ec2Ami:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Description: AMI for ECS, Parameter-store where latest is located 
+    Default: "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+  secondVolume:
+    Type: String
+    AllowedValues: ["true","false"]
+    Default: false
+  secondVolumSize:
+    Description: Number of GB volume size
+    Type: Number
+    Default: 250
+Conditions:
+  haveSecondVolume: !Equals [ !Ref secondVolume, "true" ]
+
+Resources:
+  EC2Instance: 
+    Type: "AWS::EC2::Instance"
+    Properties: 
+      ImageId: !Ref ec2Ami
+      InstanceType: !Ref instanceType
+      SubnetId: !Ref subnetId
+      DisableApiTermination: false
+      CreditSpecification: 
+        CPUCredits: standard
+      IamInstanceProfile: !Ref ec2LinuxServerGeneralProfile
+      UserData: 
+        Fn::Base64: !Sub |
+          #!/bin/bash -xe
+          yum update -y
+          yum install -y httpd
+          systemctl enable httpd
+          reboot
+      SecurityGroupIds:
+        - !Ref Ec2SecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Ref AWS::StackName
+
+  MountPoint: 
+    Type: "AWS::EC2::VolumeAttachment"
+    Condition: haveSecondVolume
+    Properties: 
+      InstanceId: 
+        !Ref EC2Instance
+      VolumeId: 
+        !Ref SecondVolume
+      Device: /dev/sdh
+  SecondVolume: 
+    Type: "AWS::EC2::Volume"
+    Condition: haveSecondVolume
+    Properties: 
+      Encrypted: true
+      Size: !Ref secondVolumSize
+      AvailabilityZone: 
+        !GetAtt EC2Instance.AvailabilityZone
+
+
+  Ec2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName:
+        Fn::Sub: ${AWS::StackName}
+      GroupDescription:
+        Fn::Sub: ECS Security Group ${AWS::StackName}
+      VpcId: !Ref 'vpcId'
+      SecurityGroupIngress:
+        - IpProtocol: TCP
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+  Ec2LinuxServerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Fn::Sub: lsg-ec2-linux-server-${AWS::StackName}-${AWS::Region}
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - ec2.amazonaws.com
+            - ssm.amazonaws.com
+          Action: sts:AssumeRole
+
+  ec2LinuxServerGeneralProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: "/"
+      Roles:
+      - Ref: Ec2LinuxServerRole
+
+
+Outputs:
+  ec2ServerId:
+    Value:
+      Ref: EC2Instance
+  publicHotsname:
+    Value: !GetAtt EC2Instance.PublicDnsName
+  url:
+    Value: !Sub "http://${EC2Instance.PublicDnsName}"
+  publicIP:
+    Value: !GetAtt EC2Instance.PublicIp
+
