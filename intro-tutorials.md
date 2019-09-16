@@ -61,7 +61,7 @@ Things to try and see:
 Set up a serverless event-driven system for processing files:
 
 ** NOTE THIS **
-Because of a bug in an older version of this tutorial download this cloudformation template and launch the stack from this template
+Because of a bug in an older version of this tutorial download this cloudformation template and launch the stack from this template in **us-east-1** (Virginia)
 https://raw.githubusercontent.com/abjoerne/lambda-refarch-fileprocessing/master/lambda_file_processing.template
 
 Then go to this page to see instructions (except the launching)
