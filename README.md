@@ -1,4 +1,1 @@
-# aws-tutorials
-Holding aws-tutorial-files
-
-
+This is not maintained any longer
